@@ -3,4 +3,9 @@
     <string name="internetConnection">Error in internet Connection</string>
     <string name="GeneralError">Something went wrong, please try again later</string>
 
+
+    <string name="facebook_app_id">945042406866198</string>
+    <string name="facebook_client_token">9396a222781bff27c89bf080d1617ecf</string>
+
+
 </resources>

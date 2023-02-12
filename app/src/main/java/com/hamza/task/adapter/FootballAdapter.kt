@@ -1,6 +1,6 @@
 package com.hamza.task.adapter
 
-import android.content.Intent
+import android.graphics.BitmapFactory
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +8,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.facebook.share.model.ShareHashtag
+import com.facebook.share.model.SharePhoto
+import com.facebook.share.model.SharePhotoContent
+import com.facebook.share.widget.ShareDialog
 import com.hamza.task.R
 import com.hamza.task.base.BaseActivity
 import com.hamza.task.model.EventData
@@ -20,7 +24,7 @@ class FootballAdapter(private val activity: BaseActivity) :
     fun updateList(list: List<EventData>) {
         mDataSet.clear()
         mDataSet.addAll(list)
-        notifyItemRangeChanged(0,list.size)
+        notifyItemRangeChanged(0, list.size)
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): FootballViewHolder {
@@ -60,26 +64,29 @@ class FootballAdapter(private val activity: BaseActivity) :
                 stadium.text = data.stadium
 
                 share.setOnClickListener {
-                    val shareIntent = Intent(Intent.ACTION_SEND)
-                    shareIntent.type = "text/plain"
-                    shareIntent.putExtra(Intent.EXTRA_TEXT, "data.match \nOn stadium ${data.stadium} At ${data.start}")
 
-                    val facebookIntent = Intent(Intent.ACTION_SEND)
-                    facebookIntent.type = "text/plain"
-                    facebookIntent.putExtra(Intent.EXTRA_TEXT, "data.match \nOn stadium ${data.stadium} At ${data.start}")
-                    facebookIntent.setPackage("com.facebook.katana")
+                    val resources = activity.resources
 
-                    if (facebookIntent.resolveActivity(activity.packageManager) != null) {
-                        activity.startActivity(facebookIntent)
-                    } else {
-                        activity.startActivity(shareIntent)
-                    }
+                    val imageId = R.drawable.calendar // the ID of the image you want to share
+                    val bitmap = BitmapFactory.decodeResource(resources, imageId)
+
+                    val sharePhoto = SharePhoto.Builder()
+                        .setBitmap(bitmap)
+                        .build()
+                    val shareHashtag = ShareHashtag.Builder()
+                        .setHashtag("${data.match} start at ${data.start} on stadium ${data.stadium}")
+                        .build()
+                    val sharePhotoContent = SharePhotoContent.Builder()
+                        .addPhoto(sharePhoto)
+                        .setShareHashtag(shareHashtag)
+                        .build()
+
+                    ShareDialog.show(activity, sharePhotoContent)
                 }
 
             } catch (e: Exception) {
                 Log.e("ErrorBidingData", e.message!!)
             }
         }
-
     }
 }

@@ -1,6 +1,7 @@
 package com.hamza.task
 
 import android.app.Application
+import com.facebook.FacebookSdk
 
 class TaskApp : Application() {
 
@@ -18,6 +19,9 @@ class TaskApp : Application() {
     override fun onCreate() {
         super.onCreate()
         mInstance = this
+        FacebookSdk.setApplicationId("945042406866198")
+        FacebookSdk.setClientToken("9396a222781bff27c89bf080d1617ecf")
+        FacebookSdk.sdkInitialize(this)
 
     }
 

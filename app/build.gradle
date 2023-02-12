@@ -78,6 +78,7 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
     compileOnly 'org.glassfish:javax.annotation:10.0-b28'
 
+    implementation 'com.facebook.android:facebook-share:latest.release'
 
     /*******************|
     |*      ROOM       *|
